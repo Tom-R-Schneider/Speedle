@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="webpage.css">
+</head>
+<body onload="page_setup()">
+  <div class="parent-container">
+    <div class="container">
+        <div>Today's Game:</div>
+        <div id="game_name">xyz</div>
+        <div>Game Category:</div>
+        <div id="game_category">xyz</div>
+        <div id="game_image">image</div>
+    </div>
+    <div class="container">
+        <div>Guess the time:</div>
+        <div id="time_to_guess">
+            <input type="number" id="hour_input" min="0" max="23" value="0">
+            h
+            <input type="number" id="minute_input" min="0" max="59" value="0">
+            m
+            <input type="number" id="second_input" min="0" max="59" value="0">
+            s
+        </div>
+    </div>
+    <div class="container">
+        <div>Guess the amount of unique players:</div>
+        <div>
+            <input type="number" id="player_count_input" min="10" max="5000" value="10">
+        </div>
+    </div>
+    <div class="container">
+        <button onclick="evaluate_guess()">
+            Guess!
+        </button>
+    </div>
+    
+
+    <script>
+
+        var daily_game_data = {
+            game: {
+                name: "",
+                category: "",
+                players: 0
+            },
+            run: {
+                player: "",
+                date: 0,
+                time: {
+                    hours: 0,
+                    minute: 0,
+                    second: 0
+                }
+            } 
+        };
+
+        function load_game_data() {
+
+            // Currently loading placehodler data
+            let example_data = {
+                "name": "Knack", 
+                "category_name": "Any%",
+                "image": "image",
+                "wr_time": {
+                    "hours": 2,
+                    "minutes": 36,
+                    "seconds": 21
+                },
+                "player_count": 11,
+                "wr_player": "Drint_sr",
+                "wr_date": 1585778400
+            }
+
+            daily_game_data.game.name = example_data.name;
+            daily_game_data.game.category = example_data.category_name;
+            daily_game_data.game.players = example_data.player_count;
+
+            daily_game_data.run.player = example_data.wr_player;
+            daily_game_data.run.date = example_data.wr_date;
+            daily_game_data.run.time = example_data.wr_time;
+
+        }
+
+        function show_question_data() {
+            document.getElementById("game_name").textContent = daily_game_data.game.name;
+            document.getElementById("game_category").textContent = daily_game_data.game.category;
+            document.getElementById("game_image").textContent = daily_game_data.game.image;
+        }
+
+        function show_answer_data() {
+
+        }
+
+        function evaluate_guess() {
+            let hours_guess = document.getElementById("hour_input").value;
+            let minutes_guess = document.getElementById("minute_input").value;
+            let seconds_guess = document.getElementById("second_input").value;
+            let players_guess = document.getElementById("player_count_input").value;
+
+            let evaluations = {
+                hours: {
+                    player: document.getElementById("hour_input").value,
+                    actual: daily_game_data.run.time.hours
+                },
+                minutes: {
+                    player: document.getElementById("minute_input").value,
+                    actual: daily_game_data.run.time.minutes
+                },
+                seconds: {
+                    player: document.getElementById("second_input").value,
+                    actual: daily_game_data.run.time.seconds
+                },
+                player_count: {
+                    player: document.getElementById("player_count_input").value,
+                    actual: daily_game_data.game.players
+                },
+            };
+
+            let correct_guess = true;
+
+            for (let guess_cat in evaluations) {
+                if (evaluations[guess_cat].player != evaluations[guess_cat].actual) {
+                    correct_guess = false;
+                }
+            }
+
+
+            if (correct_guess) {
+                alert("You did it");
+            } else {
+                alert("Try again...");
+            }
+        }
+
+        function page_setup() {
+            load_game_data();
+            show_question_data();
+        }
+
+    </script>
+  </div>
+</body>
+
+
+
+
+
+
+
+<!-- Script here -->
+<script>
+    function myFunction() {
+        alert("Button clicked!");
+    }
+</script>
+</html>
